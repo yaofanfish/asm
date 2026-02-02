@@ -43,7 +43,7 @@ if not settings["MAX_PUSH"]:
 while 1:
 	print("\033[1;36mPUSH\033[0m") if settings["VERBOSE"] else None
 	subprocess.run([pu_sh_file], capture_output=not bool(settings["VERBOSE"]))
-	print("PUSHED") if settings["VERBOSE"] else None
+	print("\033[1;32mPUSHED\033[0m") if settings["VERBOSE"] else None
 	upd()
 	i+=1
 	checkstop(settings["MAX_PUSH"], i)
