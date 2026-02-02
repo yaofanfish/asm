@@ -1,0 +1,3 @@
+mov rax, x // addr, BUT might be wrong and segfault (cannot use rel)
+lea rax, [rel x] // addr, rel
+mov rax, [x] // value

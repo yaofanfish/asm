@@ -1,0 +1,11 @@
+[
+[
+[1, "code"]
+],
+{
+[1, "stream (1 for stdout)", "pointer", "length"],
+[57],
+[59, "filen (null terminated, absolute path) - lea rdi, [rel filen]", "argv (array, NULL terminated) - lea rsi, [rel argv]", "envp (probs 0) - xor rdx, rdx"],
+}
+]
+
