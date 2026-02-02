@@ -10,9 +10,11 @@ settings["JSON_FILE"]="push.json"
 
 for i, j in enumerate(settings.keys()):
 	try:
-		settings[j]=sys.argv[i+1]
+		settings[j]=float(sys.argv[i+1])
 	except IndexError:
 		break
+	except ValueError:
+		pass
 
 pu_sh_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), settings["PUSH_FILE"])
 jason_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), settings["JSON_FILE"])
