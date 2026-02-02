@@ -29,4 +29,4 @@ def outAll():
 	for i in crons:
 		outCron(croncmd=i)
 
-inCron()
+outAll()
