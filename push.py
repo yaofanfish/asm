@@ -20,14 +20,14 @@ def checkstop(MAX_PUSH=None, i=None):
 	if MAX_PUSH==None:
 		MAX_PUSH = globals()["settings"]["MAX_PUSH"]
 	if i==None:
-		i = globals()["settings"]["i"]
+		i = globals()["i"]
 	if settings["MAX_PUSH"]!=-1:
 		if i>=settings["MAX_PUSH"]:
 			print("\033[1;31mSTOPPED AUTO-PUSHING\033[0m")
 			sys.exit()
 def upd(i=None):
 	if i is None:
-		i = globals()["settings"]["i"]
+		i = globals()["i"]
 	with open(jason_file, "w") as f:
 		json.dump({"pushno": i, "stop": 0}, f)
 	with open(jason_file) as f:
