@@ -6,8 +6,8 @@ hi db "Hello, C"
 hilen equ $-hi
 
 section .text
-global main
-main:
+global _start
+_start:
   mov eax, 4
   mov ebx, 1
   mov ecx, hi
