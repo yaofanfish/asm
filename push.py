@@ -2,7 +2,7 @@ import sys, os, subprocess, time
 
 PUSH_PERIOD=5 # seconds
 MAX_PUSH=5 # times
-VERBOSE=1
+VERBOSE=0
 PUSH_FILE="pu.sh"
 
 pu_sh_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), PUSH_FILE)
