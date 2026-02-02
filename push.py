@@ -25,7 +25,8 @@ def upd(i=None):
 	try:
 		if jason["stop"]:
 			checkstop(0, 1)
-	except: pass
+	except KeyError:
+		pass
 	with open(jason_file, "w") as f:
 		json.dump({"pushno": i, "stop": 0}, f)
 i=0
