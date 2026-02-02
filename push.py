@@ -2,9 +2,9 @@
 import sys, os, subprocess, time, json, datetime
 
 settings={}
-settings["MAX_PUSH"]=5 # times
+settings["MAX_PUSH"]=1 # times
 settings["MAX_PUSH_PERIOD"]=240 # seconds
-settings["VERBOSE"]=0
+settings["VERBOSE"]=1
 settings["PUSH_FILE"]="pu.sh"
 settings["JSON_FILE"]="push.json"
 
