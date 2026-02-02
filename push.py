@@ -11,7 +11,7 @@ if not MAX_PUSH:
 	sys.exit()
 while 1:
 	print("PUSH") if VERBOSE else None
-	subprocess.run([pu_sh_file], capture_output=bool(VERBOSE))
+	subprocess.run([pu_sh_file], capture_output=not bool(VERBOSE))
 	i+=1
 	if MAX_PUSH!=-1:
 		if i>=MAX_PUSH:
