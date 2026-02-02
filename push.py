@@ -1,6 +1,6 @@
 import sys, os, subprocess, time, json
 
-PUSH_PERIOD=5 # seconds
+MAX_PUSH_PERIOD=5 # seconds
 MAX_PUSH=5 # times
 VERBOSE=0
 PUSH_FILE="pu.sh"
@@ -23,6 +23,6 @@ while 1:
 	i+=1
 	if MAX_PUSH!=-1:
 		if i>=MAX_PUSH:
-			print("\033[1;31mSTOPPED AUTO-PUSHING\033[0m") if VERBOSE else None
+			print("\033[1;31mSTOPPED AUTO-PUSHING\033[0m")
 			sys.exit()
-	time.sleep(PUSH_PERIOD)
+	time.sleep(MAX_PUSH_PERIOD)
