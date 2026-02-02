@@ -1,10 +1,10 @@
 #!/usr/bin/python3
-import sys, os, subprocess, time, json
+import sys, os, subprocess, time, json, datetime
 
 settings={}
 settings["MAX_PUSH"]=5 # times
 settings["MAX_PUSH_PERIOD"]=240 # seconds
-settings["VERBOSE"]=1
+settings["VERBOSE"]=0
 settings["PUSH_FILE"]="pu.sh"
 settings["JSON_FILE"]="push.json"
 
@@ -31,11 +31,11 @@ def upd(i=None):
 	if i is None:
 		i = globals()["i"]
 	with open(jason_file, "w") as f:
-		json.dump({"pushno": i, "stop": 0}, f)
+		json.dump([{"pushno": i, "time": str(datetime.datetime.now())}, {"stop": 0}], f)
 	with open(jason_file) as f:
 		jason = json.load(f)
 	try:
-		if jason["stop"]:
+		if jason[1]["stop"]:
 			checkstop(0, 1)
 	except KeyError:
 		pass
