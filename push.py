@@ -20,6 +20,8 @@ def checkstop(MAX_PUSH=None, i=None):
 def upd(i=None):
 	if i is None:
 		i = globals()["i"]
+	with open(jason_file, "w") as f:
+		json.dump({"pushno": i, "stop": 0}, f)
 	with open(jason_file) as f:
 		jason = json.load(f)
 	try:
@@ -27,8 +29,6 @@ def upd(i=None):
 			checkstop(0, 1)
 	except KeyError:
 		pass
-	with open(jason_file, "w") as f:
-		json.dump({"pushno": i, "stop": 0}, f)
 i=0
 if not MAX_PUSH:
 	sys.exit()
