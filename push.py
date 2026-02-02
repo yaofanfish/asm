@@ -2,7 +2,7 @@ import sys, os, subprocess, time, json
 
 MAX_PUSH_PERIOD=240 # seconds
 MAX_PUSH=5 # times
-VERBOSE=0
+VERBOSE=1
 PUSH_FILE="pu.sh"
 JSON_FILE="push.json"
 
