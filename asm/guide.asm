@@ -1,4 +1,4 @@
-%macro print 2
+%macro print 0-2
 	mov rsi, %1 ; these 2 infront incase the inputs ARE registers
 	mov rdx, %2 ;
 	mov rax, 1
@@ -29,8 +29,10 @@ __section_%+%1%+:
 	infop_simple_def _%+%1%+_bit, _reg_g_len, bit%+%1
 %endmacro
 section .data
+hi db "Hello, world! ", 10, 0
+hilen equ $-hi
 msg db "> ", 0xA, 0x0
-wrong db "invalid input: ", 0x0
+wrong db " - invalid input: ", 0x0
 wronglen equ $-wrong
 wrong8 db "8: ", 0
 wrong8len equ $-wrong8
@@ -66,6 +68,7 @@ useri resb userilen
 system_cmd resb userilen
 buf resb userilen
 buf1 resb 1
+buf4 resb 4
 
 section .text
 global _start
@@ -89,6 +92,7 @@ _start:
 	cmp byte [rbp], 'j'
 	je __section_jumps
 	call system
+	print hi, hilen
 	cmp rax, 0
 	jnz bitu
 
@@ -116,8 +120,6 @@ system:
 	lea rdi, [rel system_cmd]
 	mov byte [rsi + rax], 0	; change useri: \n --> \0
 	call strcpy
-	lea r11, [rel buf1]
-	mov byte [r11], 0
 	mov rax, 57				; fork
 	syscall
 	cmp rax, 0
@@ -125,7 +127,11 @@ system:
 	mov rax, 61
 	xor rdi, rdi			; wait for child_process
 	syscall
-	mov al, byte [r11]		; set error code
+	; startai
+	; Extract exit code: WEXITSTATUS(status) = (status >> 8) & 0xFF
+	shr rax, 8
+	and rax, 0xFF
+	; endai
 	ret
 
 child_process:
@@ -134,7 +140,6 @@ child_process:
 	lea rsi, [rel system_cmd_array]
 	lea rdx, [rel NULL_ptr]
 	syscall
-	mov byte [r11], al		; set error code
 	mov rdi, rax
 	mov rax, 60
 	syscall
@@ -157,9 +162,9 @@ memcpy:
 	jle memcpy
 	ret
 bitu:
-	print wrong, wronglen
-	print rbp, userilen
 	add al, 0x30
 	mov byte [rel buf1], al
 	print buf1, userilen
+	print wrong, wronglen
+	print rbp, userilen
 	jmp _start
