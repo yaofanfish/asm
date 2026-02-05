@@ -56,6 +56,7 @@ _start:
 
 parse:
 ; rd into char arrays
+	call count_num
 	
 count_num:
 ; content is in filebuffer [["alice", 18], ["bob", 19]]
@@ -72,6 +73,7 @@ count_num:
 	xor edx, edx
 	lea ebp, [rel filebuffer]
 	mov ecx, ebp
+	mov byte [ebp], 1
 	call c1
 c1:
 	mov al, [ecx]
@@ -89,6 +91,8 @@ yesclose:
 yescomma:
 	cmp edx, ebx	
 	jne rback
+	add byte [dimensionsizes + ebx], 1
+	jmp rback
 rback:
 	add ecx, 1
 	jmp c1
