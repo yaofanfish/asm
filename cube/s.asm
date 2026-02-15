@@ -7,6 +7,13 @@ hilen equ $-hi
 x db 16
 y db 16
 mat dwq
+tr db 8,8
+tl db -8, 8
+bl db -8, -8
+br db 8, -8
+cords dd tr, tl, bl, br
+
+section .bss
 
 section .text
 global main
@@ -18,8 +25,17 @@ main:
 	mov edx, hilen
 	syscall
 
-	mov
+	jmp mloop
 
 	pop ebx
 	mov eax, 0
 	ret
+
+mloop:
+	jmp mloop
+
+render:
+
+matmul:
+	pop ebx
+	mov eax, 
