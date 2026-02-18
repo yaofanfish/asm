@@ -7,12 +7,17 @@
 #include <math.h>
 #include <string.h>
 
+#define WIDTH 32 // MUST be multiple of 2 (for bit)
+#define HEITE 32
+
 char* hi = "Hello, CSquare! \n";
 int x = 16;
 int y = 16;
 double mat[4] = {1,0,0,1};
 int cords[5][2] = {{8,8},{-8,8},{-8,-8},{8,-8},{NULL,NULL}};
 int rcords[5][2];
+char rendershades[9] = "$@#*>~-.";
+int ltop[2]; // ax + b
 char renderpixels[64];
 
 void frender() {
@@ -21,12 +26,29 @@ void frender() {
 	_frender:
 	write(1, (renderpixels+ecx), 1);
 	edx = ecx;
-	edx &= 0x00000007;
+	edx &= WIDTH - 1;
+// NEW
 	if (!edx) goto _frender;
 	putchar('\n');
 	if (ecx>=64) {
+		return;
 	}
 }
+
+void setpixels() {
+	
+	for (int i=0; i<8; i++) {
+		for (int j=0; j<8; j++) {
+// each pixel [i, j] for x, y y may or may not be downwards
+// TEMP SOLUTION
+// check up - 1 match = inside
+			for (int ecx; ecx<4; ecx++) {
+				
+			}
+		}
+	}
+}
+// ENDNEW
 
 void matmul(int* cord) {
 	int* buf = {cord[0]*mat[0]+cord[1]*mat[3], cord[0]*mat[1]+cord[1]*mat[2]};
@@ -43,6 +65,7 @@ void setvecs() {
 
 void render() {
 	setvecs();
+	setpixels();
 	frender();
 }
 
