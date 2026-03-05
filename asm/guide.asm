@@ -1,16 +1,17 @@
-%macro print 0-2
+%macro print 0-2 ; hi, hilen
 	mov rsi, %1 ; these 2 infront incase the inputs ARE registers
 	mov rdx, %2 ;
 	mov rax, 1
 	mov rdi, 1
 	syscall
 %endmacro
-%macro input 2
+%macro input 2 ; cmd, cmdlen
 	mov rsi, %1
 	mov rdx, %2
 	mov rax, 0
 	mov rdi, 0
 	syscall
+	mov byte [%1+rax], 0
 %endmacro
 %macro infop_simple_def 1-3
 %ifid %3
@@ -124,8 +125,10 @@ system:
 	syscall
 	cmp rax, 0
 	jz child_process
+	mov rdi, rax ; child_process id
 	mov rax, 61
-	xor rdi, rdi			; wait for child_process
+	xor rsi, rsi			; wait for child_process (status, don't care)
+	mov rdx, 0 ; options
 	syscall
 	; startai
 	; Extract exit code: WEXITSTATUS(status) = (status >> 8) & 0xFF
