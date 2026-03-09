@@ -1,0 +1,8 @@
+#!/bin/bash
+echo $BASH_SOURCE
+echo $0
+if [[ "${BASH_SOURCE[0]}" != "$0" ]]; then
+    echo "Sourced!"
+else
+    echo "Executed!"
+fi

@@ -1,0 +1,1 @@
+3 printwin for child proc - 1. i exist 2. before execve 3. after (should not)
