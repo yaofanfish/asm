@@ -13,7 +13,7 @@ The author assumes no liability for any misuse or damage caused by this software
 AGAIN JUST DON'T DOWNLOAD THE CODE SO THAT THE REPO DOESN'T GET DEELTEED PLSSSSSSS
 although most the code isn't anything there is a section with asm injection into elf files
 u should be fine if u don't use linux but still
-
+(the risky section is virus/)
 
 
 
